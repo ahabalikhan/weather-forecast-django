@@ -64,3 +64,5 @@ python manage.py runserver
 ```
 
 You can now access the application by visiting `http://localhost:8000/map/` in your web browser.
+
+The main API consumed in this project is `http://localhost:8000/weather/`
