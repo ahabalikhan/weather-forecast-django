@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast App</title>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Forecast App for GetProven</h1>
+    <div id="map"></div>
+    <form id="weatherForm">
+        <input type="hidden" id="lat" name="lat">
+        <input type="hidden" id="lon" name="lon">
+        <label for="detailing_type">Detailing Type:</label>
+        <select id="detailing_type" name="detailing_type">
+            <option value="current">Current weather</option>
+            <option value="minutely">Minute forecast for 1 hour</option>
+            <option value="hourly">Hourly forecast for 48 hours</option>
+            <option value="daily">Daily forecast for 7 days</option>
+        </select>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        let map;
+        let marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8
+            });
+
+            map.addListener('click', function(event) {
+                placeMarker(event.latLng);
+            });
+        }
+
+        function placeMarker(location) {
+            if (marker) {
+                marker.setPosition(location);
+            } else {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+            document.getElementById('lat').value = location.lat();
+            document.getElementById('lon').value = location.lng();
+        }
+
+        document.getElementById('weatherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const lat = document.getElementById('lat').value;
+            const lon = document.getElementById('lon').value;
+            console.log(lat, lon);
+            const detailingType = document.getElementById('detailing_type').value;
+
+            fetch(`/weather?lat=${lat}&lon=${lon}&detailing_type=${detailingType}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                });
+        });
+    </script>
+</body>
+</html>
