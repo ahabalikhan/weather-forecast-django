@@ -62,7 +62,7 @@
             console.log(lat, lon);
             const detailingType = document.getElementById('detailing_type').value;
 
-            fetch(`/weather?lat=${lat}&lon=${lon}&detailing_type=${detailingType}`)
+            fetch(`/weather/?lat=${lat}&lon=${lon}&detailing_type=${detailingType}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
