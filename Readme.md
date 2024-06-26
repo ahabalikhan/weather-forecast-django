@@ -1,4 +1,4 @@
-# Weather Forecast Django Project for GetProven
+# Weather Forecast Django Project
 
 This is a Django project for creating a weather forecast application. Follow the instructions below to get started.
 
